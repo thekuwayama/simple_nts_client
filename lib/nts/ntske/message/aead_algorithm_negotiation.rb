@@ -25,6 +25,12 @@ module Nts
         @algorithms = algorithms
       end
 
+      def self.deserialize(s)
+        raise Exception unless (s.length % 2).zero?
+
+        AeadAlgorithmNegotiation.new(s.scan(/.{2}/))
+      end
+
       private
 
       # @return [String]

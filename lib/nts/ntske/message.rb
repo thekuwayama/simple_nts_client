@@ -20,3 +20,44 @@ module Nts
 end
 
 Dir[File.dirname(__FILE__) + '/message/*.rb'].each { |f| require f }
+
+module Nts
+  module Ntske
+    module_function
+
+    # @param s [String]
+    #
+    # @return [Array of Nts::Ntske::Message::$Object]
+    # rubocop: disable Metrics/CyclomaticComplexity
+    def response_deserialize(s)
+      res = []
+      i = 0
+
+      while i < s.length
+        c = !(s[i].unpack1('c') | 32768).zero?
+        type = s.slice(i, 2).unpack1('n') & 32767
+        body_len = s.slice(i + 2, 2).unpack1('n')
+        sb = s.slice(i + 4, body_len)
+        case type
+        when 0
+          # TODO: check C
+          res << EndOfMessage.deserialize(sb)
+        when 1
+          res << NtsNextProtocolNegotiation.deserialize(sb)
+        when 4
+          res << AeadAlgorithmNegotiation.deserialize(sb)
+        when 5
+          res << Cookie.deserialize(sb)
+        when 7
+          res << Ntsv4PortNegotiation.deserialize(sb)
+        else
+          raise Exception if c
+        end
+        i += 4 + body_len
+      end
+
+      res
+    end
+    # rubocop: enable Metrics/CyclomaticComplexity
+  end
+end

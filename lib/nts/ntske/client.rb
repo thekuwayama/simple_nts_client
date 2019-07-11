@@ -28,6 +28,7 @@ module Nts
         ]
         client.write(req.map(&:serialize))
         res = client.read
+        pp Nts::Ntske.response_deserialize(res)
       end
     end
   end

@@ -2,22 +2,25 @@
 
 module Nts
   module Ntske
-    class EndOfMessage < Record
-      def initialize
-        super(true, 0)
+    class Cookie < Record
+      attr_reader :cookie
+
+      # @param cookie [String]
+      def initialize(cookie)
+        super(false, 5)
+
+        @cookie = cookie
       end
 
       def self.deserialize(s)
-        raise Exception unless s.empty?
-
-        EndOfMessage.new
+        Cookie.new(s)
       end
 
       private
 
       # @return [String]
       def serialize_body
-        ''
+        @cookie
       end
     end
   end
