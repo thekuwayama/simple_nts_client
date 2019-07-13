@@ -3,3 +3,4 @@
 require 'tttls1.3'
 
 require 'nts/ntske'
+require 'nts/sntp'

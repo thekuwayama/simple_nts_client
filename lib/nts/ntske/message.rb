@@ -27,7 +27,8 @@ module Nts
 
     # @param s [String]
     #
-    # @return [Array of Nts::Ntske::Message::$Object]
+    # @return [Array of Nts::Ntske::$Object]
+    # rubocop: disable Metrics/AbcSize
     # rubocop: disable Metrics/CyclomaticComplexity
     def response_deserialize(s)
       res = []
@@ -48,6 +49,8 @@ module Nts
           res << AeadAlgorithmNegotiation.deserialize(sb)
         when 5
           res << Cookie.deserialize(sb)
+        when 6
+          res << Ntsv4ServerNegotiation.deserialize(sb)
         when 7
           res << Ntsv4PortNegotiation.deserialize(sb)
         else
@@ -58,6 +61,7 @@ module Nts
 
       res
     end
+    # rubocop: enable Metrics/AbcSize
     # rubocop: enable Metrics/CyclomaticComplexity
   end
 end
