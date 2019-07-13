@@ -17,7 +17,7 @@ RSpec.describe AeadAlgorithmNegotiation do
 
   context 'received "\x00\x0f" means AEAD_AES_SIV_CMAC_256' do
     let(:message) do
-      AeadAlgorithmNegotiation.deserialize("\x00\x0F")
+      AeadAlgorithmNegotiation.deserialize("\x00\x0F", false)
     end
 
     it 'should be deserialized' do

@@ -41,18 +41,24 @@ module Nts
         sb = s.slice(i + 4, body_len)
         case type
         when 0
-          # TODO: check C
+          e = 'The Critical Bit contained in End Of Message MUST be set'
+          raise e unless c
+
           res << EndOfMessage.deserialize(sb)
         when 1
+          e = 'The Critical Bit contained in NTS Next Protocol Negotiation ' \
+              'MUST be set'
+          raise e unless c
+
           res << NtsNextProtocolNegotiation.deserialize(sb)
         when 4
-          res << AeadAlgorithmNegotiation.deserialize(sb)
+          res << AeadAlgorithmNegotiation.deserialize(sb, c)
         when 5
-          res << Cookie.deserialize(sb)
+          res << Cookie.deserialize(sb, c)
         when 6
-          res << Ntsv4ServerNegotiation.deserialize(sb)
+          res << Ntsv4ServerNegotiation.deserialize(sb, c)
         when 7
-          res << Ntsv4PortNegotiation.deserialize(sb)
+          res << Ntsv4PortNegotiation.deserialize(sb, c)
         else
           raise Exception if c
         end

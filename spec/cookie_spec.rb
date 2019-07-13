@@ -25,7 +25,7 @@ RSpec.describe Cookie do
     end
 
     let(:message) do
-      Cookie.deserialize(rb)
+      Cookie.deserialize(rb, false)
     end
 
     it 'should be deserialized' do

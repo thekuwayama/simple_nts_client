@@ -6,17 +6,19 @@ module Nts
       attr_reader :cookie
 
       # @param cookie [String]
-      def initialize(cookie)
-        super(false, 5)
+      # @param c [Boolean]
+      def initialize(cookie, c = false)
+        super(c, 5)
 
         @cookie = cookie
       end
 
       # @param s [String]
+      # @param c [Boolean]
       #
       # @return [Nts::Ntske::Cookie]
-      def self.deserialize(s)
-        Cookie.new(s)
+      def self.deserialize(s, c)
+        Cookie.new(s, c)
       end
 
       private

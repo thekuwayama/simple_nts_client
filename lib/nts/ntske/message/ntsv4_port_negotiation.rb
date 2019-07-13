@@ -6,20 +6,22 @@ module Nts
       attr_reader :port
 
       # @param port [Integer]
-      def initialize(port)
-        super(false, 7)
+      # @param c [Boolean]
+      def initialize(port, c = false)
+        super(c, 7)
         @port = port
       end
 
       # @param s [String]
+      # @param c [Boolean]
       #
       # @raise [Exception]
       #
       # @return [Nts::Ntske::Ntsv4PortNegotiation]
-      def self.deserialize(s)
+      def self.deserialize(s, c)
         raise Exception unless s.length == 2
 
-        Ntsv4PortNegotiation.new(s.unpack1('n'))
+        Ntsv4PortNegotiation.new(s.unpack1('n'), c)
       end
 
       private

@@ -6,20 +6,22 @@ module Nts
       attr_reader :server
 
       # @param server [String]
-      def initialize(server)
-        super(false, 6)
+      # @param c [Boolean]
+      def initialize(server, c = false)
+        super(c, 6)
         @server = server
       end
 
       # @param s [String]
+      # @param c [Boolean]
       #
       # @raise [Exception]
       #
       # @return [Nts::Ntske::Ntsv4ServerNegotiation]
-      def self.deserialize(s)
+      def self.deserialize(s, c)
         raise Exception if s.nil? || s.empty?
 
-        Ntsv4ServerNegotiation.new(s)
+        Ntsv4ServerNegotiation.new(s, c)
       end
 
       private

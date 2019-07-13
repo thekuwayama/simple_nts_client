@@ -17,7 +17,7 @@ RSpec.describe Ntsv4PortNegotiation do
 
   context 'received "\x00\x7B"(=123)' do
     let(:message) do
-      Ntsv4PortNegotiation.deserialize("\x00\x7B")
+      Ntsv4PortNegotiation.deserialize("\x00\x7B", false)
     end
 
     it 'should be deserialized' do

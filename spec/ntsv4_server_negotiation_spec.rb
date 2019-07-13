@@ -17,7 +17,7 @@ RSpec.describe Ntsv4ServerNegotiation do
 
   context 'received "localhost"' do
     let(:message) do
-      Ntsv4ServerNegotiation.deserialize('localhost')
+      Ntsv4ServerNegotiation.deserialize('localhost', false)
     end
 
     it 'should be deserialized' do
