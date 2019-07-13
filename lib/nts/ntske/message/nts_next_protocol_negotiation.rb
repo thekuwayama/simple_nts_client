@@ -12,6 +12,7 @@ module Nts
       end
 
       def self.deserialize(s)
+        # only support NTPv4
         raise Exception unless s == "\x00\x00"
 
         NtsNextProtocolNegotiation.new
