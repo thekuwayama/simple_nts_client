@@ -11,6 +11,11 @@ module Nts
         @next_protocol = "\x00\x00" # Protocol ID 0 (NTPv4)
       end
 
+      # @param s [String]
+      #
+      # @raise [Exception]
+      #
+      # @return [Nts::Ntske::NtsNextProtocolNegotiation]
       def self.deserialize(s)
         # only support NTPv4
         raise Exception unless s == "\x00\x00"

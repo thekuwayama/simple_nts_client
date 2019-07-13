@@ -59,7 +59,7 @@ module Nts
                 &.first
         raise Exception if alg.nil?
 
-        key_len = 32 # only suport AEAD_AES_SIV_CMAC_256
+        key_len = 32 # only support AEAD_AES_SIV_CMAC_256
         # AEAD Algorithm | NTPv4 context | C2S   / S2C
         # [refer IANA]   | 00 00         | 00 00 / 00 01
         #

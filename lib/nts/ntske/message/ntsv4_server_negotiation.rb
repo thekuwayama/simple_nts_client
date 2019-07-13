@@ -11,6 +11,11 @@ module Nts
         @server = server
       end
 
+      # @param s [String]
+      #
+      # @raise [Exception]
+      #
+      # @return [Nts::Ntske::Ntsv4ServerNegotiation]
       def self.deserialize(s)
         raise Exception if s.nil? || s.empty?
 

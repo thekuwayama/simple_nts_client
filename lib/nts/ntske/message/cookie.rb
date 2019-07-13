@@ -12,6 +12,9 @@ module Nts
         @cookie = cookie
       end
 
+      # @param s [String]
+      #
+      # @return [Nts::Ntske::Cookie]
       def self.deserialize(s)
         Cookie.new(s)
       end

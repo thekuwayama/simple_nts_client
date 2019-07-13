@@ -11,6 +11,11 @@ module Nts
         @port = port
       end
 
+      # @param s [String]
+      #
+      # @raise [Exception]
+      #
+      # @return [Nts::Ntske::Ntsv4PortNegotiation]
       def self.deserialize(s)
         raise Exception unless s.length == 2
 

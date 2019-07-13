@@ -10,7 +10,7 @@ module Nts
     class AeadAlgorithmNegotiation < Record
       attr_reader :algorithms
 
-      # @param [Array of Nts::Ntske::AeadAlgorithm constants]
+      # @param algorithms [Array of Nts::Ntske::AeadAlgorithm constants]
       #
       # example:
       #     AeadAlgorithmNegotiation.new([
@@ -21,6 +21,11 @@ module Nts
         @algorithms = algorithms
       end
 
+      # @param s [String]
+      #
+      # @raise [Exception]
+      #
+      # @return [Nts::Ntske::AeadAlgorithmNegotiation]
       def self.deserialize(s)
         raise Exception unless (s.length % 2).zero?
 

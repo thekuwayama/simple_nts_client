@@ -7,6 +7,11 @@ module Nts
         super(true, 0)
       end
 
+      # @param s [String]
+      #
+      # @raise [Exception]
+      #
+      # @return [Nts::Ntske::EndOfMessage]
       def self.deserialize(s)
         raise Exception unless s.empty?
 
