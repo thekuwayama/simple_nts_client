@@ -28,6 +28,7 @@ module Nts
       # @return [String] S2C key
       # rubocop: disable Metrics/AbcSize
       # rubocop: disable Metrics/CyclomaticComplexity
+      # rubocop: disable Metrics/PerceivedComplexity
       def key_establish
         socket = TCPSocket.new(@hostname, @port)
         client = TTTLS13::Client.new(socket, @hostname, alpn: [ALPN])
@@ -39,6 +40,14 @@ module Nts
         ]
         client.write(req.map(&:serialize))
         res = Nts::Ntske.response_deserialize(client.read)
+
+        # Error
+        er = res.find { |m| m.is_a?(ErrorRecord) }
+        raise "received Error(#{er.error_code.unpack1('n')})" unless er.nil?
+
+        # Warning
+        wr = res.find { |m| m.is_a?(WarningRecord) }
+        raise "received Warning(#{wr.warning_code})" unless wr.nil?
 
         # Next Protocol Negotiation
         npn = res.select { |m| m.is_a?(NtsNextProtocolNegotiation) }
@@ -54,7 +63,7 @@ module Nts
         cookies = res.select { |m| m.is_a?(Cookie) }&.map(&:cookie)
         raise Exception if cookies.empty?
 
-        # C2S, S2C key
+        # AEAD algorithm => C2S, S2C key
         alg = res.find { |m| m.is_a?(AeadAlgorithmNegotiation) }&.algorithms
                 &.first
         raise Exception if alg.nil?
@@ -75,6 +84,7 @@ module Nts
       end
       # rubocop: enable Metrics/AbcSize
       # rubocop: enable Metrics/CyclomaticComplexity
+      # rubocop: enable Metrics/PerceivedComplexity
     end
   end
 end

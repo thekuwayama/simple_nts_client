@@ -30,6 +30,8 @@ module Nts
     # @return [Array of Nts::Ntske::$Object]
     # rubocop: disable Metrics/AbcSize
     # rubocop: disable Metrics/CyclomaticComplexity
+    # rubocop: disable Metrics/MethodLength
+    # rubocop: disable Metrics/PerceivedComplexity
     def response_deserialize(s)
       res = []
       i = 0
@@ -51,6 +53,16 @@ module Nts
           raise e unless c
 
           res << NtsNextProtocolNegotiation.deserialize(sb)
+        when 2
+          e = 'The Critical Bit contained in Error MUST be set'
+          raise e unless c
+
+          res << ErrorRecord.deserialize(sb)
+        when 3
+          e = 'The Critical Bit contained in Warning MUST be set'
+          raise e unless c
+
+          res << WarningRecord.deserialize(sb)
         when 4
           res << AeadAlgorithmNegotiation.deserialize(sb, c)
         when 5
@@ -69,5 +81,7 @@ module Nts
     end
     # rubocop: enable Metrics/AbcSize
     # rubocop: enable Metrics/CyclomaticComplexity
+    # rubocop: enable Metrics/MethodLength
+    # rubocop: enable Metrics/PerceivedComplexity
   end
 end
