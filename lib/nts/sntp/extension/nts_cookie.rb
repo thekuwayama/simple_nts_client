@@ -5,6 +5,7 @@ module Nts
     module Extension
       # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-19#section-5.4
       class NtsCookie
+        include Extension
         attr_reader :cookie
 
         # @param cookie [String]

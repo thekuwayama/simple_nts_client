@@ -4,19 +4,15 @@
 module Nts
   module Ntske
     class Client
-      DEFAULT_HOSTNAME = 'time.cloudflare.com'
-      private_constant :DEFAULT_HOSTNAME
-
-      DEFAULT_PORT = 1234
-      private_constant :DEFAULT_PORT
-
       ALPN = 'ntske/1'
       private_constant :ALPN
 
       KE_LABEL = 'EXPORTER-network-time-security/1'
       private_constant :KE_LABEL
 
-      def initialize(hostname: DEFAULT_HOSTNAME, port: DEFAULT_PORT)
+      # @param hostname [String]
+      # @param port [Integer]
+      def initialize(hostname, port)
         @hostname = hostname
         @port = port
       end
@@ -39,7 +35,7 @@ module Nts
           EndOfMessage.new
         ]
         client.write(req.map(&:serialize))
-        res = Nts::Ntske.response_deserialize(client.read)
+        res = Ntske.response_deserialize(client.read)
 
         # Error
         er = res.find { |m| m.is_a?(ErrorRecord) }

@@ -5,6 +5,7 @@ module Nts
     module Extension
       # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-19#section-5.3
       class UniqueIdentifier
+        include Extension
         attr_reader :id
 
         # @param id [String]
