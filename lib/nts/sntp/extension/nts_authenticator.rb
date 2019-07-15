@@ -12,7 +12,7 @@ module Nts
         # @param ciphertext [String]
         # @param padding_length [Integer]
         def initialize(nonce, ciphertext, padding_length = 0)
-          @field_type = 1028
+          @field_type = ExtensionFieldType::NTS_AUTHENTICATOR
           @nonce = nonce
           @ciphertext = ciphertext
           @padding_length = padding_length
@@ -40,8 +40,10 @@ module Nts
 
           nl = s.slice(0, 2).unpack1('n')
           cl = s.slice(2, 2).unpack1('n')
-          nonce = truncate_zero_padding(s.slice(4, nl))
-          ciphertext = truncate_zero_padding(s.slice(4 + nl, cl))
+          raise Exception if s.length < 4 + nl + cl
+
+          nonce = Extension.truncate_zero_padding(s.slice(4, nl))
+          ciphertext = Extension.truncate_zero_padding(s.slice(4 + nl, cl))
           padding_length = s.length - 4 - nl - cl
           NtsAuthenticator.new(nonce, ciphertext, padding_length)
         end

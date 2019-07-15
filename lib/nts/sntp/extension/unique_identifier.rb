@@ -12,7 +12,7 @@ module Nts
         def initialize(id = OpenSSL::Random.random_bytes(32))
           raise Exception if id.length < 32
 
-          @field_type = 260
+          @field_type = ExtensionFieldType::UNIQUE_IDENTIFIER
           @id = id
         end
 
@@ -28,7 +28,7 @@ module Nts
         #
         # @return [Nts::Sntp::Extension::UniqueIdentifier]
         def self.deserialize(s)
-          UniqueIdentifier.new(truncate_zero_padding(s))
+          UniqueIdentifier.new(Extension.truncate_zero_padding(s))
         end
       end
     end

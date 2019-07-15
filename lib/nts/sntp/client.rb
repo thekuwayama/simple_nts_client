@@ -38,8 +38,8 @@ module Nts
           nts_authenticator
         )
         sock.send(req.serialize, 0, @hostname, @port)
-        res, _ = sock.recvfrom(65536)
-        p res.bytes.map { |i| i.to_s(16).rjust(2, '0') }.join(' ')
+        res, = sock.recvfrom(65536)
+        pp Sntp::Message.deserialize(res)
       end
 
       private

@@ -10,7 +10,7 @@ module Nts
 
         # @param cookie [String]
         def initialize(cookie)
-          @field_type = 516
+          @field_type = ExtensionFieldType::NTS_COOKIE
           @cookie = cookie
         end
 
@@ -26,7 +26,7 @@ module Nts
         #
         # @return [Nts::Sntp::Extension::NtsCookie]
         def self.deserialize(s)
-          NtsCookie.new(truncate_zero_padding(s))
+          NtsCookie.new(Extension.truncate_zero_padding(s))
         end
       end
     end

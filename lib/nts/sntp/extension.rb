@@ -2,6 +2,13 @@
 
 module Nts
   module Sntp
+    module ExtensionFieldType
+      UNIQUE_IDENTIFIER      = 260
+      NTS_COOKIE             = 516
+      NTS_COOKIE_PLACEHOLDER = 772
+      NTS_AUTHENTICATOR      = 1028
+    end
+
     # https://tools.ietf.org/html/rfc7822#section-3
     module Extension
       ZERO_PADDING = ['', "\x00\x00\x00", "\x00\x00", "\x00"].freeze
