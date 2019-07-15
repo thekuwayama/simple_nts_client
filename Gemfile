@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gem 'logger'
 gem 'rake'
 gem 'tttls1.3'
+gem 'miscreant'
 
 group :test do
   gem 'pry'
