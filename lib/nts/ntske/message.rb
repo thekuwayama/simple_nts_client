@@ -2,6 +2,7 @@
 
 module Nts
   module Ntske
+    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-19#section-4
     class Record
       # @param c [Boolean]
       # @param type [Integer] less than 32768(15 bits)

@@ -3,10 +3,12 @@
 
 module Nts
   module Ntske
+    # https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml#aead-parameters-2
     module AeadAlgorithm
       AEAD_AES_SIV_CMAC_256 = "\x00\x0F"
     end
 
+    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-19#section-4.1.5
     class AeadAlgorithmNegotiation < Record
       attr_reader :algorithms
 

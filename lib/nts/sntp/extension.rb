@@ -2,6 +2,7 @@
 
 module Nts
   module Sntp
+    # https://tools.ietf.org/html/rfc7822#section-3
     module Extension
       ZERO_PADDING = ['', "\x00\x00\x00", "\x00\x00", "\x00"].freeze
 

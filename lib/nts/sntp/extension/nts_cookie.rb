@@ -3,6 +3,7 @@
 module Nts
   module Sntp
     module Extension
+      # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-19#section-5.4
       class NtsCookie
         attr_reader :cookie
 

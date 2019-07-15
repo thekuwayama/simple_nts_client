@@ -2,6 +2,7 @@
 
 module Nts
   module Ntske
+    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-19#section-4.1.6
     class Cookie < Record
       attr_reader :cookie
 

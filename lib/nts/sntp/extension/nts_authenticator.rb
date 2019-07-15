@@ -3,6 +3,7 @@
 module Nts
   module Sntp
     module Extension
+      # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-19#section-5.6
       class NtsAuthenticator
         attr_reader :nonce, :ciphertext, :padding_length
 
