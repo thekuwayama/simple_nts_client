@@ -28,6 +28,8 @@ module Nts
 
     # @param s [String]
     #
+    # @raise [Exception | RuntimeError]
+    #
     # @return [Array of Nts::Ntske::$Object]
     # rubocop: disable Metrics/AbcSize
     # rubocop: disable Metrics/CyclomaticComplexity
@@ -36,11 +38,14 @@ module Nts
     def response_deserialize(s)
       res = []
       i = 0
-
       while i < s.length
+        raise Exception if i + 4 > s.length
+
         c = !(s[i].unpack1('c') | 32768).zero?
         type = s.slice(i, 2).unpack1('n') & 32767
         body_len = s.slice(i + 2, 2).unpack1('n')
+        raise Exception if i + 4 + body_len > s.length
+
         sb = s.slice(i + 4, body_len)
         case type
         when 0
@@ -77,6 +82,7 @@ module Nts
         end
         i += 4 + body_len
       end
+      raise Exception unless i == s.length
 
       res
     end

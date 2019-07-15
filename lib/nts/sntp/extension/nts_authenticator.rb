@@ -12,7 +12,7 @@ module Nts
         # @param ciphertext [String]
         # @param padding_length [Integer]
         def initialize(nonce, ciphertext, padding_length = 0)
-          @field_type = 5
+          @field_type = 1028
           @nonce = nonce
           @ciphertext = ciphertext
           @padding_length = padding_length

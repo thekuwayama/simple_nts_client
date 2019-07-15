@@ -10,7 +10,7 @@ module Nts
 
         # @param cookie [String]
         def initialize(cookie)
-          @field_type = 3
+          @field_type = 516
           @cookie = cookie
         end
 

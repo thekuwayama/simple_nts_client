@@ -12,7 +12,7 @@ module Nts
         def initialize(id = OpenSSL::Random.random_bytes(32))
           raise Exception if id.length < 32
 
-          @field_type = 2
+          @field_type = 260
           @id = id
         end
 

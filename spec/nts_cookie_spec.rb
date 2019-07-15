@@ -15,7 +15,7 @@ RSpec.describe NtsCookie do
 
     it 'should be serialized' do
       expect(ex.cookie).to eq rb
-      expect(ex.serialize).to eq "\x00\x03\x00\x24" + rb
+      expect(ex.serialize).to eq "\x02\x04\x00\x24" + rb
     end
   end
 
@@ -30,7 +30,7 @@ RSpec.describe NtsCookie do
 
     it 'should be deserialized' do
       expect(ex.cookie).to eq rb
-      expect(ex.serialize).to eq "\x00\x03\x00\x24" + rb
+      expect(ex.serialize).to eq "\x02\x04\x00\x24" + rb
     end
   end
 end

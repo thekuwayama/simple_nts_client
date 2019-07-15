@@ -23,7 +23,7 @@ RSpec.describe NtsAuthenticator do
       expect(ex.padding_length).to eq 0
 
       expected = String.new
-      expected << "\x00\x05\x30\x54" # Field Type | Length
+      expected << "\x04\x04\x30\x54" # Field Type | Length
       expected << "\x00\x10\x30\x3C" # Nonce Length | Ciphertext Length
       expected << nonce
       expected << ciphertext + "\x00\x00\x00" # padded to a word boundary
@@ -54,7 +54,7 @@ RSpec.describe NtsAuthenticator do
       expect(ex.padding_length).to eq 0
 
       expected = String.new
-      expected << "\x00\x05\x30\x54" # Field Type | Length
+      expected << "\x04\x04\x30\x54" # Field Type | Length
       expected << "\x00\x10\x30\x3C" # Nonce Length | Ciphertext Length
       expected << nonce
       expected << ciphertext + "\x00\x00\x00" # padded to a word boundary
