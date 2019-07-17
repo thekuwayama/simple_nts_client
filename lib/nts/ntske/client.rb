@@ -24,6 +24,7 @@ module Nts
       # @return [String] S2C key
       # rubocop: disable Metrics/AbcSize
       # rubocop: disable Metrics/CyclomaticComplexity
+      # rubocop: disable Metrics/MethodLength
       # rubocop: disable Metrics/PerceivedComplexity
       def key_establish
         socket = TCPSocket.new(@hostname, @port)
@@ -35,7 +36,13 @@ module Nts
           EndOfMessage.new
         ]
         client.write(req.map(&:serialize))
-        res = Ntske.response_deserialize(client.read)
+        res = nil
+        begin
+          Timeout.timeout(1) { res = Ntske.response_deserialize(client.read) }
+        rescue Timeout::Error
+          warn 'timeout'
+          exit 1
+        end
 
         # Error
         er = res.find { |m| m.is_a?(ErrorRecord) }
@@ -79,6 +86,7 @@ module Nts
       end
       # rubocop: enable Metrics/AbcSize
       # rubocop: enable Metrics/CyclomaticComplexity
+      # rubocop: enable Metrics/MethodLength
       # rubocop: enable Metrics/PerceivedComplexity
     end
   end

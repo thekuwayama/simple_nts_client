@@ -20,6 +20,7 @@ module Nts
       def what_time
         sock = UDPSocket.new
 
+        # send NTS-protected NTP packet
         localtime = t2timestamp(Time.now)
         ntp_header = sntp_request_header(localtime)
         unique_identifier = Extension::UniqueIdentifier.new
@@ -38,8 +39,16 @@ module Nts
         )
         sock.send(req.serialize, 0, @hostname, @port)
 
-        res, = sock.recvfrom(65536)
-        pp Sntp::Message.deserialize(res)
+        # recv NTS-protected NTP packet
+        s = nil
+        begin
+          Timeout.timeout(1) { s, = sock.recvfrom(65536) }
+        rescue Timeout::Error
+          warn 'timeout'
+          exit 1
+        end
+        res = Sntp::Message.deserialize(s)
+        pp res
       end
 
       private
