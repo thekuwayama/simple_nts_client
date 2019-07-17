@@ -60,17 +60,16 @@ module Nts
         raise Exception if cookies.empty?
 
         # AEAD algorithm => C2S, S2C key
+        # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-20#section-5.1
         alg = res.find { |m| m.is_a?(AeadAlgorithmNegotiation) }&.algorithms
                 &.first
         raise Exception if alg.nil?
 
         key_len = 32 # only support AEAD_AES_SIV_CMAC_256
-        # AEAD Algorithm | NTPv4 context | C2S   / S2C
-        # [refer IANA]   | 00 00         | 00 00 / 00 01
-        #
-        # https://www.iana.org/assignments/aead-parameters/aead-parameters.xhtml#aead-parameters-2
-        c2s_key = client.exporter(KE_LABEL, alg + "\x00\x00\x00\x00", key_len)
-        s2c_key = client.exporter(KE_LABEL, alg + "\x00\x00\x00\x01", key_len)
+        # NTPv4 context | AEAD Algorithm | C2S   / S2C
+        # 00 00         | [refer IANA]   | 00 00 / 00 01
+        c2s_key = client.exporter(KE_LABEL, "\x00\x00#{alg}\x00\x00", key_len)
+        s2c_key = client.exporter(KE_LABEL, "\x00\x00#{alg}\x00\x01", key_len)
 
         # End of Message
         raise Exception unless res.last&.is_a?(EndOfMessage) &&

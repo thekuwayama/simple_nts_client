@@ -2,6 +2,7 @@
 
 require 'openssl'
 require 'socket'
+require 'time'
 require 'tttls1.3'
 require 'miscreant'
 
