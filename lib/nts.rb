@@ -9,3 +9,4 @@ require 'miscreant'
 
 require 'nts/ntske'
 require 'nts/sntp'
+require 'nts/cli'

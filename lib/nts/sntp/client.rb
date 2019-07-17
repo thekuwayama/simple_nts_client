@@ -48,7 +48,7 @@ module Nts
           exit 1
         end
         res = Sntp::Message.deserialize(s)
-        pp res
+        res
       end
 
       private
