@@ -73,10 +73,10 @@ module Nts
         raise Exception if alg.nil?
 
         key_len = 32 # only support AEAD_AES_SIV_CMAC_256
-        # NTPv4 context | AEAD Algorithm | C2S   / S2C
-        # 00 00         | [refer IANA]   | 00 00 / 00 01
-        c2s_key = client.exporter(KE_LABEL, "\x00\x00#{alg}\x00\x00", key_len)
-        s2c_key = client.exporter(KE_LABEL, "\x00\x00#{alg}\x00\x01", key_len)
+        # NTPv4 context | AEAD Algorithm | C2S  / S2C
+        # 0x00 0x00     | [refer IANA]   | 0x00 / 0x01
+        c2s_key = client.exporter(KE_LABEL, "\x00\x00" + alg + "\x00", key_len)
+        s2c_key = client.exporter(KE_LABEL, "\x00\x00" + alg + "\x01", key_len)
 
         # End of Message
         raise Exception unless res.last&.is_a?(EndOfMessage) &&
