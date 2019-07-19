@@ -6,6 +6,10 @@ module Nts
   module Sntp
     # https://tools.ietf.org/html/rfc5905#section-7.3
     class Message
+      attr_reader :unique_identifier
+      attr_reader :nts_cookie
+      attr_reader :nts_authenticator
+
       # @param ntp_header [String] 48-octet NTP header(leap ~ xmt)
       # @param unique_identifier [Nts::Sntp::Extension::UniqueIdentifier]
       # @param nts_cookie [Nts::Sntp::Extension::NtsCookie]
@@ -76,6 +80,21 @@ module Nts
       # rubocop: enable Metrics/AbcSize
       # rubocop: enable Metrics/CyclomaticComplexity
       # rubocop: enable Metrics/PerceivedComplexity
+
+      # @return [String]
+      def origin_timestamp
+        @ntp_header.slice(24, 8)
+      end
+
+      # @return [String]
+      def receive_timestamp
+        @ntp_header.slice(32, 8)
+      end
+
+      # @return [String]
+      def transmit_timestamp
+        @ntp_header.slice(40, 8)
+      end
     end
   end
 end

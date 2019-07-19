@@ -17,12 +17,16 @@ module Nts
         @s2c_key = s2c_key
       end
 
+      # @return [Time]
+      # rubocop: disable Metrics/AbcSize
+      # rubocop: disable Metrics/MethodLength
       def what_time
         sock = UDPSocket.new
+        localtime = Time.now
+        origin_timestamp = t2timestamp(localtime)
 
         # send NTS-protected NTP packet
-        localtime = t2timestamp(Time.now)
-        ntp_header = sntp_request_header(localtime)
+        ntp_header = sntp_request_header(origin_timestamp)
         unique_identifier = Extension::UniqueIdentifier.new
         nts_cookie = Extension::NtsCookie.new(@cookie)
         nonce = OpenSSL::Random.random_bytes(16)
@@ -41,15 +45,40 @@ module Nts
 
         # recv NTS-protected NTP packet
         s = nil
+        destination_timestamp = nil
         begin
           Timeout.timeout(1) { s, = sock.recvfrom(65536) }
+          destination_timestamp = Time.now
         rescue Timeout::Error
           warn 'timeout'
           exit 1
         end
         res = Sntp::Message.deserialize(s)
-        res
+
+        # validate response timestamp
+        if res.origin_timestamp != origin_timestamp
+          warn 'NTP Response Origin Timestamp != NTP Request Transmit Timestamp'
+          exit 1
+        end
+
+        # validate Unique Identifier
+        if res.unique_identifier.id != unique_identifier.id
+          warn 'NTP Response Unique Identifier != NTP Request Unique Identifier'
+          exit 1
+        end
+
+        # TODO: validate Nts Authenticator
+
+        offset = offset(
+          localtime,
+          timestamp2t(res.receive_timestamp),
+          timestamp2t(res.transmit_timestamp),
+          destination_timestamp
+        )
+        destination_timestamp + offset
       end
+      # rubocop: enable Metrics/AbcSize
+      # rubocop: enable Metrics/MethodLength
 
       private
 
@@ -72,14 +101,48 @@ module Nts
         ['00' + '100' + '011'].pack('B8') + "\x00" * 39 + xmt
       end
 
+      TIMESTAMP_BASE_DATE = Time.parse('1900-01-01 00:00:00+00:00').to_i
+      private_constant :TIMESTAMP_BASE_DATE
+
       # https://tools.ietf.org/html/rfc5905#section-6
       #
       # @param t [Time]
       #
-      # @return [String]
+      # @return [String] NTP Timestamp Format(8 bytes)
       def t2timestamp(t)
-        [t.to_i - Time.parse('1900-01-01 00:00:00+00:00').to_i].pack('N') \
+        # In order to  minimize bias and help make timestamps unpredictable to
+        # an intruder, Fraction should be set to an unbiased random bit string.
+        [t.to_i - TIMESTAMP_BASE_DATE].pack('N') \
         + OpenSSL::Random.random_bytes(4)
+      end
+
+      # @param s [String] NTP Timestamp Format(8 bytes)
+      #
+      # @return [Time]
+      def timestamp2t(s)
+        Time.at(s[0...4].unpack1('N') + TIMESTAMP_BASE_DATE \
+                + s[4..].unpack1('N') / (2.0**32))
+      end
+
+      # @param t1 [Time]
+      # @param t2 [Time]
+      # @param t3 [Time]
+      # @param t4 [Time]
+      #
+      # @return [Float]
+      def offset(t1, t2, t3, t4)
+        # Timestamp Name          ID   When Generated
+        # ------------------------------------------------------------
+        # Originate Timestamp     T1   time request sent by client
+        # Receive Timestamp       T2   time request received by server
+        # Transmit Timestamp      T3   time reply sent by server
+        # Destination Timestamp   T4   time reply received by client
+        #
+        # The roundtrip delay d and system clock offset t are defined as:
+        #
+        # d = (T4 - T1) - (T3 - T2)     t = ((T2 - T1) + (T3 - T4)) / 2.
+        # https://tools.ietf.org/html/rfc4330#section-5
+        ((t2 - t1) + (t3 - t4)) / 2
       end
     end
   end
