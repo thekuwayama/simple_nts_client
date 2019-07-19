@@ -25,22 +25,22 @@ module Nts
         localtime = Time.now
         origin_timestamp = t2timestamp(localtime)
 
-        # send NTS-protected NTP packet
+        # make NTS-protected NTP packet
         ntp_header = sntp_request_header(origin_timestamp)
         unique_identifier = Extension::UniqueIdentifier.new
-        nts_cookie = Extension::NtsCookie.new(@cookie)
+        extensions = [
+          unique_identifier,
+          Extension::NtsCookie.new(@cookie)
+        ]
         nonce = OpenSSL::Random.random_bytes(16)
         cipher = Miscreant::AEAD.new('AES-CMAC-SIV', @c2s_key)
-        plaintext = unique_identifier.serialize + nts_cookie.serialize
+        plaintext = extensions.map(&:serialize).join
         ad = ntp_header + plaintext
         ciphertext = cipher.seal(plaintext, nonce: nonce, ad: ad)
-        nts_authenticator = Extension::NtsAuthenticator.new(nonce, ciphertext)
-        req = Sntp::Message.new(
-          ntp_header,
-          unique_identifier,
-          nts_cookie,
-          nts_authenticator
-        )
+        extensions << Extension::NtsAuthenticator.new(nonce, ciphertext)
+
+        # send NTS-protected NTP packet
+        req = Sntp::Message.new(ntp_header, extensions)
         sock.send(req.serialize, 0, @hostname, @port)
 
         # recv NTS-protected NTP packet
@@ -67,8 +67,18 @@ module Nts
           exit 1
         end
 
-        # TODO: validate Nts Authenticator
+        # decript NTS Authenticator and Encrypted Extension Fields
+        decipher = Miscreant::AEAD.new('AES-CMAC-SIV', @s2c_key)
+        ciphertext = res.nts_authenticator.ciphertext
+        nonce = res.nts_authenticator.nonce
+        ad = res.ntp_header + res.extensions.reject { |ex|
+          ex.is_a?(Extension::NtsAuthenticator)
+        }.map(&:serialize).join
+        plaintext = decipher.open(ciphertext, nonce: nonce, ad: ad)
+        Message.extensions_deserialize(plaintext)
+        # TODO: handle NtsCookie or NtsCookiePlaceholder
 
+        # calculate system clock offset
         offset = offset(
           localtime,
           timestamp2t(res.receive_timestamp),
