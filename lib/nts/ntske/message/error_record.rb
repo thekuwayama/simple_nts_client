@@ -13,7 +13,7 @@ module Nts
 
       # @param error_code [Nts::Ntske::ErrorCode constant]
       def initialize(error_code)
-        super(true, 2)
+        super(true, RecordType::ERROR)
         @error_code = error_code
       end
 

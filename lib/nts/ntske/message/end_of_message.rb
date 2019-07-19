@@ -5,7 +5,7 @@ module Nts
     # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-19#section-4.1.1
     class EndOfMessage < Record
       def initialize
-        super(true, 0)
+        super(true, RecordType::END_OF_MESSAGE)
       end
 
       # @param s [String]

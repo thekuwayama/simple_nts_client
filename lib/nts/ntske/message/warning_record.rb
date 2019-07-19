@@ -8,7 +8,7 @@ module Nts
 
       # @param warning_code [Integer]
       def initialize(warning_code)
-        super(true, 3)
+        super(true, RecordType::WARNING)
         @warning_code = warning_code
       end
 

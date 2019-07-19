@@ -2,6 +2,18 @@
 
 module Nts
   module Ntske
+    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-19#section-7.6
+    module RecordType
+      END_OF_MESSAGE                = 0
+      NTS_NEXT_PROTOCOL_NEGOTIATION = 1
+      ERROR                         = 2
+      WARNING                       = 3
+      AEAD_ALGORITHM_NEGOTIATION    = 4
+      NEW_COOKIE_FOR_NTPV4          = 5
+      NTPV4_SERVER_NEGOTIATION      = 6
+      NTPV4_PORT_NEGOTIATION        = 7
+    end
+
     # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-19#section-4
     class Record
       # @param c [Boolean]
@@ -48,34 +60,34 @@ module Nts
 
         sb = s.slice(i + 4, body_len)
         case type
-        when 0
+        when RecordType::END_OF_MESSAGE
           e = 'The Critical Bit contained in End Of Message MUST be set'
           raise e unless c
 
           res << EndOfMessage.deserialize(sb)
-        when 1
+        when RecordType::NTS_NEXT_PROTOCOL_NEGOTIATION
           e = 'The Critical Bit contained in NTS Next Protocol Negotiation ' \
               'MUST be set'
           raise e unless c
 
           res << NtsNextProtocolNegotiation.deserialize(sb)
-        when 2
+        when RecordType::ERROR
           e = 'The Critical Bit contained in Error MUST be set'
           raise e unless c
 
           res << ErrorRecord.deserialize(sb)
-        when 3
+        when RecordType::WARNING
           e = 'The Critical Bit contained in Warning MUST be set'
           raise e unless c
 
           res << WarningRecord.deserialize(sb)
-        when 4
+        when RecordType::AEAD_ALGORITHM_NEGOTIATION
           res << AeadAlgorithmNegotiation.deserialize(sb, c)
-        when 5
+        when RecordType::NEW_COOKIE_FOR_NTPV4
           res << Cookie.deserialize(sb, c)
-        when 6
+        when RecordType::NTPV4_SERVER_NEGOTIATION
           res << Ntsv4ServerNegotiation.deserialize(sb, c)
-        when 7
+        when RecordType::NTPV4_PORT_NEGOTIATION
           res << Ntsv4PortNegotiation.deserialize(sb, c)
         else
           raise Exception if c

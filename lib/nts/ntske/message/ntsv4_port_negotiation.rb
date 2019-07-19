@@ -9,7 +9,7 @@ module Nts
       # @param port [Integer]
       # @param c [Boolean]
       def initialize(port, c = false)
-        super(c, 7)
+        super(c, RecordType::NTPV4_PORT_NEGOTIATION)
         @port = port
       end
 

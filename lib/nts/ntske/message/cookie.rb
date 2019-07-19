@@ -9,7 +9,7 @@ module Nts
       # @param cookie [String]
       # @param c [Boolean]
       def initialize(cookie, c = false)
-        super(c, 5)
+        super(c, RecordType::NEW_COOKIE_FOR_NTPV4)
 
         @cookie = cookie
       end

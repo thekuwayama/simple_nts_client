@@ -20,7 +20,7 @@ module Nts
       #         AeadAlgorithm::AEAD_AES_SIV_CMAC_256
       #     ])
       def initialize(algorithms, c = false)
-        super(c, 4)
+        super(c, RecordType::AEAD_ALGORITHM_NEGOTIATION)
         @algorithms = algorithms
       end
 

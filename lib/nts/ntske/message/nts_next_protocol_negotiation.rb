@@ -8,7 +8,7 @@ module Nts
       attr_reader :next_protocol
 
       def initialize
-        super(false, 1)
+        super(false, RecordType::NTS_NEXT_PROTOCOL_NEGOTIATION)
         @next_protocol = "\x00\x00" # Protocol ID 0 (NTPv4)
       end
 

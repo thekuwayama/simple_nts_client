@@ -9,7 +9,7 @@ module Nts
       # @param server [String]
       # @param c [Boolean]
       def initialize(server, c = false)
-        super(c, 6)
+        super(c, RecordType::NTPV4_SERVER_NEGOTIATION)
         @server = server
       end
 
