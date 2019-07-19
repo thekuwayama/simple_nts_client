@@ -51,7 +51,7 @@ module Nts
 
           # `value_len` indicates the length of the entire extension field
           # in octets.
-          sv = s.slice(i, value_len)
+          sv = s.slice(i + 4, value_len - 4)
           case field_type
           when ExtensionFieldType::UNIQUE_IDENTIFIER
             unique_identifier = Extension::UniqueIdentifier.deserialize(sv)
