@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'miscreant'
 gem 'rake'
 gem 'timeout'
-gem 'tttls1.3'
+gem 'tttls1.3', '>= 0.2.7'
 
 group :test do
   gem 'pry'
