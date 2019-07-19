@@ -67,7 +67,7 @@ module Nts
           exit 1
         end
 
-        # decript NTS Authenticator and Encrypted Extension Fields
+        # validate NTS Authenticator and Encrypted Extension Fields
         decipher = Miscreant::AEAD.new('AES-CMAC-SIV', @s2c_key)
         ciphertext = res.nts_authenticator.ciphertext
         nonce = res.nts_authenticator.nonce
@@ -76,7 +76,7 @@ module Nts
         }.map(&:serialize).join
         plaintext = decipher.open(ciphertext, nonce: nonce, ad: ad)
         Message.extensions_deserialize(plaintext)
-        # TODO: handle NtsCookie or NtsCookiePlaceholder
+        # not handle decrypt any NTP Extensions
 
         # calculate system clock offset
         offset = offset(

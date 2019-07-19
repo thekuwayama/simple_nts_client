@@ -83,13 +83,13 @@ module Nts
           when ExtensionFieldType::NTS_COOKIE
             extensions << Extension::NtsCookie.deserialize(sv)
           when ExtensionFieldType::NTS_COOKIE_PLACEHOLDER
-            # TODO: support NtsCookiePlaceholder
+            # unsupported NtsCookiePlaceholder
             warn sv.bytes.map { |x| x.to_s(16).rjust(2, '0') }.join(' ')
           when ExtensionFieldType::NTS_AUTHENTICATOR
             extensions << Extension::NtsAuthenticator.deserialize(sv)
           else
-            # TODO: support UnknownExtension
-            warn sv.bytes.map { |x| x.to_s(16).rjust(2, '0') }.join(' ')
+            extensions \
+            << Extension::UnknownExtension.deserialize(sv, field_type)
           end
           i += value_len
         end
