@@ -27,8 +27,8 @@ module Nts
       # rubocop: disable Metrics/MethodLength
       # rubocop: disable Metrics/PerceivedComplexity
       def key_establish
-        socket = TCPSocket.new(@hostname, @port)
-        client = TTTLS13::Client.new(socket, @hostname, alpn: [ALPN])
+        sock = TCPSocket.new(@hostname, @port)
+        client = TTTLS13::Client.new(sock, @hostname, alpn: [ALPN])
         client.connect
         req = [
           NtsNextProtocolNegotiation.new,
@@ -37,11 +37,12 @@ module Nts
         ]
         client.write(req.map(&:serialize))
         res = nil
-        begin
-          Timeout.timeout(1) { res = Ntske.response_deserialize(client.read) }
-        rescue Timeout::Error
-          warn 'timeout'
+        read, = IO.select([sock], nil, nil, 1)
+        if read.nil?
+          warn 'Timeout: receiving for NTS-KE messages'
           exit 1
+        else
+          res = Ntske.response_deserialize(client.read)
         end
 
         # Error

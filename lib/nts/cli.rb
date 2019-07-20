@@ -47,7 +47,7 @@ module Nts
       ntske_client = Ntske::Client.new(opts[:server], opts[:port])
       hostname, ntp_port, cookies, c2s_key, s2c_key = ntske_client.key_establish
 
-      # NTS protected NTP 
+      # NTS protected NTP
       ntp_client = Nts::Sntp::Client.new(
         hostname || opts[:server],
         ntp_port || 123,

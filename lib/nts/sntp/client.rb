@@ -46,12 +46,13 @@ module Nts
         # recv NTS-protected NTP packet
         s = nil
         destination_timestamp = nil
-        begin
-          Timeout.timeout(1) { s, = sock.recvfrom(65536) }
-          destination_timestamp = Time.now
-        rescue Timeout::Error
-          warn 'timeout'
+        read, = IO.select([sock], nil, nil, 1)
+        if read.nil?
+          warn 'Timeout: receiving for NTP packet'
           exit 1
+        else
+          s, = sock.recvfrom(65536)
+          destination_timestamp = Time.now
         end
         res = Sntp::Message.deserialize(s)
 
