@@ -1,5 +1,8 @@
 # simple_nts_client
 
+[![Build Status](https://travis-ci.org/thekuwayama/simple_nts_client.svg?branch=master)](https://travis-ci.org/thekuwayama/simple_nts_client)
+[![Maintainability](https://api.codeclimate.com/v1/badges/7b34a4868f1e297af084/maintainability)](https://codeclimate.com/github/thekuwayama/simple_nts_client/maintainability)
+
 `simple_nts_client` is CLI that is simple NTS(Network Time Security) Client implementation.
 
 https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-19
@@ -21,10 +24,11 @@ $ bundle exec exe/simple_nts_client
 ## Usage
 
 ```bash
-$ bundle exec exe/simple_nts_client -help
+$ bundle exec exe/simple_nts_client --help
 Usage: simple_nts_client [options]
     -s, --server VALUE               NTS-KE server name (default time.cloudflare.com)
     -p, --port VALUE                 NTS-KE port number (default 1234)
+    -v, --verbose                    verbose mode       (default false)
 ```
 
 You can run it the following:
