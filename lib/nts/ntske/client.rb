@@ -36,22 +36,32 @@ module Nts
           EndOfMessage.new
         ]
         client.write(req.map(&:serialize))
-        res = nil
-        read, = IO.select([sock], nil, nil, 1)
-        if read.nil?
-          warn 'Timeout: receiving for NTS-KE messages'
-          exit 1
-        else
-          res = Ntske.response_deserialize(client.read)
+        res = []
+        buffer = ''
+        loop do
+          read, = IO.select([sock], nil, nil, 1)
+          if read.nil?
+            warn 'Timeout: receiving for NTS-KE messages'
+            exit 1
+          else
+            r, b = Ntske.response_deserialize(buffer + client.read)
+            res += r
+            buffer = b
+          end
+
+          # Error
+          er = res.find { |m| m.is_a?(ErrorRecord) }
+          raise "received Error(#{er.error_code.unpack1('n')})" unless er.nil?
+
+          # Warning
+          wr = res.find { |m| m.is_a?(WarningRecord) }
+          raise "received Warning(#{wr.warning_code})" unless wr.nil?
+
+          # End of Message
+          break if res.last&.is_a?(EndOfMessage) &&
+                   res.count { |m| m.is_a?(EndOfMessage) } == 1 &&
+                   buffer.empty?
         end
-
-        # Error
-        er = res.find { |m| m.is_a?(ErrorRecord) }
-        raise "received Error(#{er.error_code.unpack1('n')})" unless er.nil?
-
-        # Warning
-        wr = res.find { |m| m.is_a?(WarningRecord) }
-        raise "received Warning(#{wr.warning_code})" unless wr.nil?
 
         # Next Protocol Negotiation
         npn = res.select { |m| m.is_a?(NtsNextProtocolNegotiation) }
@@ -78,10 +88,6 @@ module Nts
         # 0x00 0x00     | [refer IANA]   | 0x00 / 0x01
         c2s_key = client.exporter(KE_LABEL, "\x00\x00" + alg + "\x00", key_len)
         s2c_key = client.exporter(KE_LABEL, "\x00\x00" + alg + "\x01", key_len)
-
-        # End of Message
-        raise Exception unless res.last&.is_a?(EndOfMessage) &&
-                               res.count { |m| m.is_a?(EndOfMessage) } == 1
 
         [server, port, cookies, c2s_key, s2c_key]
       end
