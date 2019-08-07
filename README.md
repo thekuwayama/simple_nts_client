@@ -46,7 +46,7 @@ $ bundle exec exe/simple_nts_client -s YOURSERVER -p YOURPORT
 2019-07-20 06:00:00 +0900
 ```
 
-## What is "simple" client?
+## How "simple" client?
 
 * The CLI supports only `AEAD_AES_SIV_CMAC_256` as AEAD algorithms to protect the NTPv4 packet.
 * The CLI sends the first one of the received cookies via the response of the New Cookie for NTPv4 record and discards cookies that didn't send.
