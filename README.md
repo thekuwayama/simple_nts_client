@@ -4,6 +4,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/7b34a4868f1e297af084/maintainability)](https://codeclimate.com/github/thekuwayama/simple_nts_client/maintainability)
 
 `simple_nts_client` is CLI that is simple NTS(Network Time Security) Client implementation.
+This CLI prints the now timestamp got with NTS.
 
 https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-19
 
@@ -44,6 +45,13 @@ If you need to access other NTS-KE server or port, you can run it the following:
 $ bundle exec exe/simple_nts_client -s YOURSERVER -p YOURPORT
 2019-07-20 06:00:00 +0900
 ```
+
+## What is "simple" client?
+
+* The CLI supports only `AEAD_AES_SIV_CMAC_256` as AEAD algorithms to protect the NTPv4 packet.
+* The CLI sends the first one of the received cookies via the response of the New Cookie for NTPv4 record and discards cookies that didn't send.
+* The CLI just prints the timestamp adjusted by calculated system clock offset.
+
 
 ## License
 
