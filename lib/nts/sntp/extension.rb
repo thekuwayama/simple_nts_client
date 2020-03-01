@@ -35,4 +35,4 @@ module Nts
   end
 end
 
-Dir[File.dirname(__FILE__) + '/extension/*.rb'].each { |f| require f }
+Dir[File.dirname(__FILE__) + '/extension/*.rb'].sort.each { |f| require f }

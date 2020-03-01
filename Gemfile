@@ -9,6 +9,6 @@ gem 'tttls1.3', '>= 0.2.7'
 group :test do
   gem 'pry'
   gem 'pry-byebug'
-  gem 'rspec', '3.8.0'
-  gem 'rubocop', '0.68.1'
+  gem 'rspec', '3.9.0'
+  gem 'rubocop', '0.79.0'
 end

@@ -32,7 +32,7 @@ module Nts
   end
 end
 
-Dir[File.dirname(__FILE__) + '/message/*.rb'].each { |f| require f }
+Dir[File.dirname(__FILE__) + '/message/*.rb'].sort.each { |f| require f }
 
 module Nts
   module Ntske
