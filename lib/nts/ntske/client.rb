@@ -78,7 +78,7 @@ module Nts
         raise Exception if cookies.empty?
 
         # AEAD algorithm => C2S, S2C key
-        # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-20#section-5.1
+        # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-22#section-5.1
         alg = res.find { |m| m.is_a?(AeadAlgorithmNegotiation) }&.algorithms
                 &.first
         raise Exception if alg.nil?
