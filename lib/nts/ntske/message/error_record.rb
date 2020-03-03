@@ -2,10 +2,11 @@
 
 module Nts
   module Ntske
-    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-20#section-4.1.3
+    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-22#section-4.1.3
     module ErrorCode
       UNRECOGNIZED_CRITICAL_RECORD = "\x00\x00"
       BAD_REQUEST                  = "\x00\x01"
+      INTERNAL_SERVER_ERROR        = "\x00\x02"
     end
 
     class ErrorRecord < Record

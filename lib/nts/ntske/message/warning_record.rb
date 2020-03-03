@@ -2,7 +2,7 @@
 
 module Nts
   module Ntske
-    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-20#section-4.1.4
+    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-22#section-4.1.4
     class WarningRecord < Record
       attr_reader :warning_code
 

@@ -2,7 +2,7 @@
 
 module Nts
   module Sntp
-    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-20#section-7.5
+    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-22#section-7.5
     module ExtensionFieldType
       UNIQUE_IDENTIFIER      = 260
       NTS_COOKIE             = 516
@@ -35,4 +35,4 @@ module Nts
   end
 end
 
-Dir[File.dirname(__FILE__) + '/extension/*.rb'].each { |f| require f }
+Dir[File.dirname(__FILE__) + '/extension/*.rb'].sort.each { |f| require f }

@@ -2,7 +2,7 @@
 
 module Nts
   module Ntske
-    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-20#section-4.1.1
+    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-22#section-4.1.1
     class EndOfMessage < Record
       def initialize
         super(true, RecordType::END_OF_MESSAGE)

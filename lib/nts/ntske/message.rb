@@ -2,7 +2,7 @@
 
 module Nts
   module Ntske
-    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-20#section-7.6
+    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-22#section-7.6
     module RecordType
       END_OF_MESSAGE                = 0
       NTS_NEXT_PROTOCOL_NEGOTIATION = 1
@@ -14,7 +14,7 @@ module Nts
       NTPV4_PORT_NEGOTIATION        = 7
     end
 
-    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-20#section-4
+    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-22#section-4
     class Record
       # @param c [Boolean]
       # @param type [Integer] less than 32768(15 bits)
@@ -32,7 +32,7 @@ module Nts
   end
 end
 
-Dir[File.dirname(__FILE__) + '/message/*.rb'].each { |f| require f }
+Dir[File.dirname(__FILE__) + '/message/*.rb'].sort.each { |f| require f }
 
 module Nts
   module Ntske
