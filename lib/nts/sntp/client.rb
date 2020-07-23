@@ -70,13 +70,15 @@ module Nts
 
         # validate NTS Authenticator and Encrypted Extension Fields
         decipher = Miscreant::AEAD.new('AES-CMAC-SIV', @s2c_key)
-        ciphertext = res.nts_authenticator.ciphertext
-        nonce = res.nts_authenticator.nonce
-        ad = res.ntp_header + res.extensions.reject { |ex|
-          ex.is_a?(Extension::NtsAuthenticator)
-        }.map(&:serialize).join
-        plaintext = decipher.open(ciphertext, nonce: nonce, ad: ad)
-        Message.extensions_deserialize(plaintext)
+        if !res.nts_authenticator.nil? && !res.nts_authenticator.ciphertext.nil?
+          ciphertext = res.nts_authenticator.ciphertext
+          nonce = res.nts_authenticator.nonce
+          ad = res.ntp_header + res.extensions.reject { |ex|
+            ex.is_a?(Extension::NtsAuthenticator)
+          }.map(&:serialize).join
+          plaintext = decipher.open(ciphertext, nonce: nonce, ad: ad)
+          Message.extensions_deserialize(plaintext)
+        end
         # not handle decrypt any NTP Extensions
 
         # calculate system clock offset
