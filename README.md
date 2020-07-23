@@ -8,7 +8,7 @@ simple\_nts\_client is CLI that is simple NTS(Network Time Security) Client impl
 This CLI prints the now timestamp got with NTS.
 Current implementation is based on:
 
-* [draft-ietf-ntp-using-nts-for-ntp-22](https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-22)
+* [draft-ietf-ntp-using-nts-for-ntp-28](https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-28)
 
 
 ## Installation

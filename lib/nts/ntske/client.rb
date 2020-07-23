@@ -7,7 +7,7 @@ module Nts
       ALPN = 'ntske/1'
       private_constant :ALPN
 
-      KE_LABEL = 'EXPORTER-network-time-security/1'
+      KE_LABEL = 'EXPORTER-network-time-security'
       private_constant :KE_LABEL
 
       # @param hostname [String]
@@ -78,7 +78,7 @@ module Nts
         raise Exception if cookies.empty?
 
         # AEAD algorithm => C2S, S2C key
-        # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-22#section-5.1
+        # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-28#section-5.1
         alg = res.find { |m| m.is_a?(AeadAlgorithmNegotiation) }&.algorithms
                 &.first
         raise Exception if alg.nil?
