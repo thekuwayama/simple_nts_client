@@ -7,7 +7,7 @@ module Nts
       ALPN = 'ntske/1'
       private_constant :ALPN
 
-      KE_LABEL = 'EXPORTER-network-time-security/1'
+      KE_LABEL = 'EXPORTER-network-time-security'
       private_constant :KE_LABEL
 
       # @param hostname [String]
