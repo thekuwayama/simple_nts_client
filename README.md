@@ -1,7 +1,7 @@
 # simple_nts_client
 
 [![Gem Version](https://badge.fury.io/rb/simple_nts_client.svg)](https://badge.fury.io/rb/simple_nts_client)
-[![Build Status](https://travis-ci.org/thekuwayama/simple_nts_client.svg?branch=master)](https://travis-ci.org/thekuwayama/simple_nts_client)
+[![CI](https://github.com/thekuwayama/simple_nts_client/workflows/CI/badge.svg)(https://github.com/thekuwayama/simple_nts_client/actions?workflow=CI)
 [![Maintainability](https://api.codeclimate.com/v1/badges/7b34a4868f1e297af084/maintainability)](https://codeclimate.com/github/thekuwayama/simple_nts_client/maintainability)
 
 simple\_nts\_client is CLI that is simple NTS(Network Time Security) Client implementation.
