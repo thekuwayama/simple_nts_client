@@ -8,7 +8,7 @@ module Nts
       AEAD_AES_SIV_CMAC_256 = "\x00\x0F"
     end
 
-    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-22#section-4.1.5
+    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-28#section-4.1.5
     class AeadAlgorithmNegotiation < Record
       attr_reader :algorithms
 

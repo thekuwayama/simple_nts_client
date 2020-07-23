@@ -2,7 +2,7 @@
 
 module Nts
   module Ntske
-    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-22#section-4.1.8
+    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-28#section-4.1.8
     class Ntsv4PortNegotiation < Record
       attr_reader :port
 
