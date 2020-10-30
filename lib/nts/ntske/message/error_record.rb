@@ -2,7 +2,7 @@
 
 module Nts
   module Ntske
-    # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-28#section-4.1.3
+    # https://tools.ietf.org/html/rfc8915#section-4.1.3
     module ErrorCode
       UNRECOGNIZED_CRITICAL_RECORD = "\x00\x00"
       BAD_REQUEST                  = "\x00\x01"
