@@ -3,7 +3,7 @@
 module Nts
   module Sntp
     module Extension
-      # https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-28#section-5.3
+      # https://tools.ietf.org/html/rfc8915#section-5.3
       class UniqueIdentifier
         include Extension
         attr_reader :id
