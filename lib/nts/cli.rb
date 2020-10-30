@@ -11,7 +11,7 @@ module Nts
       # default value
       opts = {
         server: 'time.cloudflare.com',
-        port: 1234,
+        port: 4460,
         verbose: false
       }
 
