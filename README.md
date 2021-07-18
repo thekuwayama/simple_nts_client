@@ -8,21 +8,21 @@ simple\_nts\_client is CLI that is simple NTS(Network Time Security) Client impl
 This CLI prints the now timestamp got with NTS.
 Current implementation is based on:
 
-* [RFC 8915](https://tools.ietf.org/html/rfc8915)
+* https://datatracker.ietf.org/doc/html/rfc8915
 
 
 ## Installation
 
 The gem is available at [rubygems.org](https://rubygems.org/gems/simple_nts_client). You can install it the following:
 
-```bash
+```sh-session
 $ gem install simple_nts_client
 ```
 
 
 ## Usage
 
-```bash
+```sh-session
 $ simple_nts_client --help
 Usage: simple_nts_client [options]
     -s, --server VALUE               NTS-KE server name (default time.cloudflare.com)
@@ -32,14 +32,14 @@ Usage: simple_nts_client [options]
 
 You can run it the following:
 
-```bash
+```sh-session
 $ simple_nts_client
 2020-10-30 20:00:00 +0900
 ```
 
 If you need to access other NTS-KE server or port, you can run it the following:
 
-```bash
+```sh-session
 $ simple_nts_client --server YOURSERVER --port YOURPORT
 2020-10-30 20:00:00 +0900
 ```
